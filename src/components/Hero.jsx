@@ -18,7 +18,7 @@ const Hero = () => {
     "Climber",
     "Skier",
     "Pianist",
-    "Gamer"
+    "Creative"
   ];
   
   useEffect(() => {

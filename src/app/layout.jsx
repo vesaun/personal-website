@@ -4,8 +4,11 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Your Name - Portfolio',
+  title: 'Vesaun Shrestha',
   description: 'Personal portfolio website showcasing my projects and skills',
+  icons: {
+    icon: '/logo.png'
+  },
 };
 
 export default function RootLayout({ children }) {

@@ -220,29 +220,29 @@ const About = () => {
                 whileHover={{ scale: 1.05 }}
                 className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
               >
-                <h3 className="font-bold text-purple-400 text-xl">3+</h3>
+                <h3 className="font-bold text-purple-400 text-xl">2+</h3>
                 <p className="text-gray-300">Years Experience</p>
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
               >
-                <h3 className="font-bold text-purple-400 text-xl">50+</h3>
+                <h3 className="font-bold text-purple-400 text-xl">25+</h3>
                 <p className="text-gray-300">Projects</p>
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
               >
-                <h3 className="font-bold text-purple-400 text-xl">20+</h3>
+                <h3 className="font-bold text-purple-400 text-xl">15+</h3>
                 <p className="text-gray-300">Technologies</p>
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
               >
-                <h3 className="font-bold text-purple-400 text-xl">100%</h3>
-                <p className="text-gray-300">Satisfaction</p>
+                <h3 className="font-bold text-purple-400 text-xl">50+</h3>
+                <p className="text-gray-300">Students Mentored</p>
               </motion.div>
             </div>
           </div>
