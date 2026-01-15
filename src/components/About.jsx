@@ -2,184 +2,56 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { SketchTree, SketchFootprints, SketchCampfire, SketchCompass, SketchMountainIcon, SketchTrail } from './OutdoorDecorations';
+import { TreePine, Mountain } from 'lucide-react';
 
 const About = () => {
-  // Use state for animations to prevent hydration errors
-  const [particles, setParticles] = useState([]);
   const [isClient, setIsClient] = useState(false);
 
-  // Generate animations only on the client side
   useEffect(() => {
     setIsClient(true);
-    
-    // Generate floating particles for background
-    const generatedParticles = Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      size: Math.random() * 4 + 2,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      duration: Math.random() * 20 + 15,
-      delay: Math.random() * 5,
-      opacity: Math.random() * 0.07 + 0.03,
-    }));
-    
-    setParticles(generatedParticles);
   }, []);
 
   return (
-    <section id="about" className="py-20 bg-gray-900 relative overflow-hidden">
-      {/* Animated background pattern */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Only render animations on client side to prevent hydration mismatch */}
-        {isClient && (
-          <>
-            {/* Floating particles */}
-            {particles.map((particle) => (
-              <motion.div
-                key={`particle-${particle.id}`}
-                className="absolute rounded-full bg-purple-500"
-                style={{
-                  width: `${particle.size}px`,
-                  height: `${particle.size}px`,
-                  left: `${particle.x}%`,
-                  top: `${particle.y}%`,
-                  opacity: particle.opacity,
-                }}
-                animate={{
-                  y: [0, -30, 0],
-                  x: [0, Math.random() * 20 - 10, 0],
-                  opacity: [particle.opacity, particle.opacity * 1.5, particle.opacity],
-                }}
-                transition={{
-                  duration: particle.duration,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: particle.delay,
-                }}
-              />
-            ))}
-            
-            <svg className="absolute w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <motion.path
-                d="M0,0 L100,0 L100,100 L0,100 Z"
-                fill="none"
-                stroke="rgba(139, 92, 246, 0.1)"
-                strokeWidth="0.5"
-                initial={{}}
-                animate={{
-                  d: [
-                    "M0,0 L100,0 L100,100 L0,100 Z",
-                    "M0,0 L100,0 L90,100 L10,100 Z",
-                    "M0,0 L100,0 L100,100 L0,100 Z"
-                  ]
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.path
-                d="M0,20 L100,20"
-                fill="none"
-                stroke="rgba(139, 92, 246, 0.05)"
-                strokeWidth="0.5"
-                initial={{}}
-                animate={{
-                  d: [
-                    "M0,20 L100,20",
-                    "M0,25 L100,15",
-                    "M0,20 L100,20"
-                  ]
-                }}
-                transition={{
-                  duration: 15,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.path
-                d="M0,40 L100,40"
-                fill="none"
-                stroke="rgba(139, 92, 246, 0.05)"
-                strokeWidth="0.5"
-                initial={{}}
-                animate={{
-                  d: [
-                    "M0,40 L100,40",
-                    "M0,35 L100,45",
-                    "M0,40 L100,40"
-                  ]
-                }}
-                transition={{
-                  duration: 18,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.path
-                d="M0,60 L100,60"
-                fill="none"
-                stroke="rgba(139, 92, 246, 0.05)"
-                strokeWidth="0.5"
-                initial={{}}
-                animate={{
-                  d: [
-                    "M0,60 L100,60",
-                    "M0,65 L100,55",
-                    "M0,60 L100,60"
-                  ]
-                }}
-                transition={{
-                  duration: 22,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.path
-                d="M0,80 L100,80"
-                fill="none"
-                stroke="rgba(139, 92, 246, 0.05)"
-                strokeWidth="0.5"
-                initial={{}}
-                animate={{
-                  d: [
-                    "M0,80 L100,80",
-                    "M0,75 L100,85",
-                    "M0,80 L100,80"
-                  ]
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-            </svg>
-
-            {/* Glowing orb light effect */}
-            <motion.div
-              className="absolute rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-3xl"
-              style={{
-                width: '30vw',
-                height: '30vw',
-                top: '30%',
-                left: '10%',
-              }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-                x: [-50, 50, -50],
-              }}
-              transition={{
-                duration: 25,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </>
-        )}
-      </div>
+    <section id="about" className="py-20 bg-gradient-to-b from-sketch-charcoal-100 via-sketch-ash-50 to-sketch-charcoal-50 relative overflow-hidden paper-bg">
+      {/* Decorative outdoor elements - scattered throughout */}
+      <SketchTree className="absolute top-20 left-10 opacity-20" delay={0} />
+      <SketchTree className="absolute top-60 left-32 opacity-15 hidden lg:block" delay={0.3} />
+      <SketchCampfire className="absolute top-40 right-20 opacity-30" animate={true} />
+      <SketchFootprints className="absolute bottom-20 right-10 opacity-20" />
+      <SketchMountainIcon className="absolute top-32 right-40 opacity-15 hidden md:block" delay={0.5} />
+      <SketchCompass className="absolute bottom-32 left-20 opacity-20 hidden lg:block" size={50} />
+      
+      {/* Hand-drawn trail path */}
+      <svg className="absolute top-1/2 left-0 w-full h-32 opacity-15 hidden md:block" viewBox="0 0 1200 100">
+        <motion.path
+          d="M0,50 Q200,30 400,50 T800,50 Q1000,70 1200,50"
+          stroke="#B2BEB5"
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="5,10"
+          className="sketch-stroke"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 3, delay: 0.5 }}
+        />
+      </svg>
+      
+      {/* Sketch mountain silhouettes - layered */}
+      <svg className="absolute bottom-0 left-0 w-full h-64 opacity-10" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+        <path
+          d="M0,300 L100,200 Q150,160 200,190 L300,140 Q350,100 400,130 L500,90 Q550,60 600,85 L700,60 Q750,40 800,55 L900,45 Q950,35 1000,45 L1100,40 L1200,50 L1200,300 Z"
+          fill="#B2BEB5"
+          className="sketch-stroke"
+        />
+      </svg>
+      <svg className="absolute bottom-0 right-0 w-2/3 h-48 opacity-8" viewBox="0 0 800 200" preserveAspectRatio="xMidYMax slice">
+        <path
+          d="M0,200 L80,140 Q120,110 160,130 L220,100 Q260,80 300,95 L400,200 Z"
+          fill="#A7C091"
+          className="sketch-stroke"
+        />
+      </svg>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -189,60 +61,59 @@ const About = () => {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Me</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-sketch-charcoal-800 font-cabin">
+            About <span className="text-sketch-sage-600">Me</span>
           </h2>
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-700 relative overflow-hidden">
-            {/* Animated glow */}
-            <motion.div 
-              className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl opacity-20 blur-xl"
-              animate={{
-                opacity: [0.1, 0.2, 0.1],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
+          <div className="bg-sketch-ash-100/80 backdrop-blur-sm rounded-lg shadow-2xl p-8 border-2 border-sketch-olive-400 relative overflow-hidden sketch-border">
+            {/* Hand-drawn corner decorations */}
+            <TreePine className="absolute top-4 right-4 opacity-20" size={30} style={{ color: '#7BA05B' }} />
+            <Mountain className="absolute bottom-4 left-4 opacity-15" size={28} style={{ color: '#6C541E' }} />
             
-            <p className="relative text-lg text-gray-300 leading-relaxed mb-6">
+            {/* Decorative sketch lines in corners */}
+            <svg className="absolute top-0 left-0 w-20 h-20 opacity-20" viewBox="0 0 100 100">
+              <path d="M0,20 L80,0 M0,40 L60,0 M0,60 L40,0" stroke="#7BA05B" strokeWidth="2" className="sketch-stroke" />
+            </svg>
+            <svg className="absolute bottom-0 right-0 w-20 h-20 opacity-20" viewBox="0 0 100 100">
+              <path d="M100,80 L20,100 M100,60 L40,100 M100,40 L60,100" stroke="#7BA05B" strokeWidth="2" className="sketch-stroke" />
+            </svg>
+            
+            <p className="relative text-lg text-sketch-charcoal-700 leading-relaxed mb-6 font-pt-sans">
               I'm a passionate developer with a keen interest in building beautiful and functional web applications. 
               With a strong foundation in modern web technologies, I love turning complex problems into simple, 
               beautiful, and intuitive solutions.
             </p>
-            <p className="relative text-lg text-gray-300 leading-relaxed mb-6">
+            <p className="relative text-lg text-sketch-charcoal-700 leading-relaxed mb-6 font-pt-sans">
               When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, 
               or sharing my knowledge with the developer community.
             </p>
             <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
               <motion.div 
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="text-center p-4 bg-sketch-sage-100/50 rounded-lg border-2 border-sketch-sage-400 shadow-lg sketch-border"
               >
-                <h3 className="font-bold text-purple-400 text-xl">2+</h3>
-                <p className="text-gray-300">Years Experience</p>
+                <h3 className="font-bold text-sketch-olive-700 text-xl font-cabin">2+</h3>
+                <p className="text-sketch-charcoal-600 font-pt-sans">Years Experience</p>
               </motion.div>
               <motion.div 
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="text-center p-4 bg-sketch-sage-100/50 rounded-lg border-2 border-sketch-sage-400 shadow-lg sketch-border"
               >
-                <h3 className="font-bold text-purple-400 text-xl">25+</h3>
-                <p className="text-gray-300">Projects</p>
+                <h3 className="font-bold text-sketch-olive-700 text-xl font-cabin">25+</h3>
+                <p className="text-sketch-charcoal-600 font-pt-sans">Projects</p>
               </motion.div>
               <motion.div 
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="text-center p-4 bg-sketch-sage-100/50 rounded-lg border-2 border-sketch-sage-400 shadow-lg sketch-border"
               >
-                <h3 className="font-bold text-purple-400 text-xl">15+</h3>
-                <p className="text-gray-300">Technologies</p>
+                <h3 className="font-bold text-sketch-olive-700 text-xl font-cabin">15+</h3>
+                <p className="text-sketch-charcoal-600 font-pt-sans">Technologies</p>
               </motion.div>
               <motion.div 
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-gray-700/50 rounded-lg border border-gray-600"
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="text-center p-4 bg-sketch-sage-100/50 rounded-lg border-2 border-sketch-sage-400 shadow-lg sketch-border"
               >
-                <h3 className="font-bold text-purple-400 text-xl">50+</h3>
-                <p className="text-gray-300">Students Mentored</p>
+                <h3 className="font-bold text-sketch-olive-700 text-xl font-cabin">50+</h3>
+                <p className="text-sketch-charcoal-600 font-pt-sans">Students Mentored</p>
               </motion.div>
             </div>
           </div>

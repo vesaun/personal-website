@@ -2,19 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { SketchTree, SketchCompass, SketchCampfire, SketchMountainIcon } from './OutdoorDecorations';
+import { Mail, MapPin } from 'lucide-react';
 
 const SocialIcon = ({ href, children }) => (
   <motion.a 
     href={href} 
     target="_blank" 
     rel="noopener noreferrer" 
-    className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 border border-gray-700"
+    className="w-10 h-10 flex items-center justify-center rounded-full bg-sketch-ash-200/80 text-sketch-olive-600 border-2 border-sketch-olive-400 sketch-border"
     whileHover={{ 
-      backgroundColor: '#4c1d95',
-      color: '#f3f4f6',
-      borderColor: '#8b5cf6',
-      y: -5,
-      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.2)'
+      backgroundColor: 'rgba(123, 160, 91, 0.3)',
+      color: '#4A412A',
+      borderColor: '#7BA05B',
+      y: -3,
+      boxShadow: '0 10px 15px -3px rgba(74, 65, 42, 0.3)'
     }}
     whileTap={{ scale: 0.9 }}
   >
@@ -28,10 +30,51 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: null, message: '' });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: data.message || 'Message sent successfully! I\'ll get back to you soon.'
+        });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: data.error || 'Failed to send message. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: 'An error occurred. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -39,30 +82,81 @@ const Contact = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear status message when user starts typing
+    if (submitStatus.type) {
+      setSubmitStatus({ type: null, message: '' });
+    }
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-800 relative overflow-hidden">
-      {/* Animated particles background */}
+    <section id="contact" className="py-20 bg-gradient-to-b from-sketch-charcoal-50 via-sketch-ash-100 to-sketch-charcoal-100 relative overflow-hidden paper-bg">
+      {/* Decorative outdoor sketch elements */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Outdoor decorations */}
+        <SketchTree className="absolute top-28 left-12 opacity-20" delay={0} />
+        <SketchTree className="absolute bottom-24 right-16 opacity-18" delay={0.5} />
+        <SketchCompass className="absolute top-20 right-24 opacity-20 hidden lg:block" size={60} />
+        <SketchCampfire className="absolute bottom-32 left-20 opacity-25 hidden md:block" animate={true} />
+        <SketchMountainIcon className="absolute top-1/2 right-12 opacity-15 hidden lg:block" delay={0.3} />
+        
+        {/* Hand-drawn envelope sketch */}
+        <svg className="absolute top-1/3 left-1/4 w-24 h-24 opacity-10 hidden lg:block" viewBox="0 0 100 100">
+          <motion.rect
+            x="10"
+            y="30"
+            width="80"
+            height="50"
+            stroke="#6C541E"
+            strokeWidth="2"
+            fill="none"
+            className="sketch-stroke"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, delay: 0.5 }}
+          />
+          <motion.path
+            d="M10,30 L50,60 L90,30"
+            stroke="#7BA05B"
+            strokeWidth="2"
+            fill="none"
+            className="sketch-stroke"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 1.5, delay: 1 }}
+          />
+        </svg>
+        
+        {/* Dotted trail path */}
+        <svg className="absolute bottom-0 left-0 w-full h-32 opacity-12" viewBox="0 0 1200 100">
+          <path
+            d="M0,80 Q200,60 400,80 T800,80 Q1000,90 1200,80"
+            stroke="#B2BEB5"
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray="6,10"
+            className="sketch-stroke"
+          />
+        </svg>
+        
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full bg-purple-500"
+            className="absolute rounded-full"
             style={{
-              width: Math.random() * 5 + 2 + 'px',
-              height: Math.random() * 5 + 2 + 'px',
+              width: Math.random() * 4 + 2 + 'px',
+              height: Math.random() * 4 + 2 + 'px',
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.1 + 0.05
+              opacity: Math.random() * 0.08 + 0.02,
+              background: `rgba(148, 163, 184, 0.3)`,
             }}
             animate={{
-              y: [0, Math.random() * 100 - 50],
-              x: [0, Math.random() * 100 - 50],
-              opacity: [Math.random() * 0.1, Math.random() * 0.2, 0],
+              y: [0, Math.random() * 60 - 30],
+              x: [0, Math.random() * 60 - 30],
+              opacity: [Math.random() * 0.05 + 0.02, Math.random() * 0.1 + 0.05, Math.random() * 0.05 + 0.02],
             }}
             transition={{
-              duration: Math.random() * 10 + 10,
+              duration: Math.random() * 12 + 10,
               repeat: Infinity,
               ease: "easeInOut",
               repeatType: "reverse"
@@ -79,45 +173,40 @@ const Contact = () => {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Touch</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-sketch-charcoal-800 font-cabin">
+            Get in <span className="text-sketch-sage-600">Touch</span>
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-200">
+              <h3 className="text-xl font-semibold mb-4 text-sketch-charcoal-800 font-cabin">
                 Let's Connect
               </h3>
-              <p className="text-gray-400 mb-6">
+              <p className="text-sketch-charcoal-600 mb-6 font-pt-sans">
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
               </p>
               
               <div className="space-y-6">
                 <motion.div 
-                  className="flex items-center space-x-4"
+                  className="flex items-center space-x-4 group"
                   whileHover={{ x: 5 }}
                 >
-                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 text-purple-400">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-sketch-ash-200/80 border-2 border-sketch-olive-400 text-sketch-olive-600 sketch-border group-hover:bg-sketch-sage-100">
+                    <Mail size={20} />
                   </div>
-                  <a href="mailto:vesh9653@colorado.edu" className="text-gray-300 hover:text-purple-400 transition-colors">
-                    vesh9653@colorado.edu
+                  <a href="mailto:vesh9653@colorado.edu" className="text-sketch-charcoal-700 hover:text-sketch-olive-700 transition-colors font-pt-sans">
+                    vesaunshrestha@gmail.com
                   </a>
                 </motion.div>
                 
                 <motion.div 
-                  className="flex items-center space-x-4"
+                  className="flex items-center space-x-4 group"
                   whileHover={{ x: 5 }}
                 >
-                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 text-purple-400">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-sketch-ash-200/80 border-2 border-sketch-olive-400 text-sketch-olive-600 sketch-border group-hover:bg-sketch-sage-100">
+                    <MapPin size={20} />
                   </div>
-                  <span className="text-gray-300">
+                  <span className="text-sketch-charcoal-700 font-pt-sans">
                     Boulder, CO
                   </span>
                 </motion.div>
@@ -142,13 +231,18 @@ const Contact = () => {
               </div>
             </div>
             
-            <div>
+            <div className="relative">
+              {/* Decorative corner sketch */}
+              <svg className="absolute -top-6 -left-6 w-16 h-16 opacity-20" viewBox="0 0 60 60">
+                <path d="M10,10 L50,10 M10,10 L10,50" stroke="#7BA05B" strokeWidth="2" className="sketch-stroke" />
+              </svg>
+              
               <form onSubmit={handleSubmit} className="space-y-6">
                 <motion.div
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-sketch-charcoal-800 mb-2 font-cabin">
                     Name
                   </label>
                   <input
@@ -158,7 +252,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-900 text-white"
+                    className="w-full px-4 py-2 border-2 border-sketch-olive-300 rounded-lg focus:ring-2 focus:ring-sketch-sage-500 focus:border-sketch-sage-600 bg-sketch-ash-50 text-sketch-charcoal-800 placeholder-sketch-charcoal-400/50 font-pt-sans"
                   />
                 </motion.div>
                 
@@ -166,7 +260,7 @@ const Contact = () => {
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-sketch-charcoal-800 mb-2 font-cabin">
                     Email
                   </label>
                   <input
@@ -176,7 +270,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-900 text-white"
+                    className="w-full px-4 py-2 border-2 border-sketch-olive-300 rounded-lg focus:ring-2 focus:ring-sketch-sage-500 focus:border-sketch-sage-600 bg-sketch-ash-50 text-sketch-charcoal-800 placeholder-sketch-charcoal-400/50 font-pt-sans"
                   />
                 </motion.div>
                 
@@ -184,7 +278,7 @@ const Contact = () => {
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-sketch-charcoal-800 mb-2 font-cabin">
                     Message
                   </label>
                   <textarea
@@ -194,19 +288,44 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows="4"
-                    className="w-full px-4 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-900 text-white"
+                    className="w-full px-4 py-2 border-2 border-sketch-olive-300 rounded-lg focus:ring-2 focus:ring-sketch-sage-500 focus:border-sketch-sage-600 bg-sketch-ash-50 text-sketch-charcoal-800 placeholder-sketch-charcoal-400/50 font-pt-sans"
                   ></textarea>
                 </motion.div>
                 
+                {/* Status message */}
+                {submitStatus.message && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`p-4 rounded-lg border-2 ${
+                      submitStatus.type === 'success'
+                        ? 'bg-sketch-sage-100 border-sketch-sage-500 text-sketch-sage-700'
+                        : 'bg-red-50 border-red-300 text-red-700'
+                    } font-pt-sans`}
+                  >
+                    {submitStatus.message}
+                  </motion.div>
+                )}
+
                 <motion.button
                   type="submit"
-                  className="w-full py-3 px-6 rounded-lg font-semibold text-white relative overflow-hidden group"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting}
+                  className="w-full py-3 px-6 rounded-lg font-semibold text-sketch-charcoal-50 relative overflow-hidden group shadow-lg border-2 border-sketch-olive-600 bg-sketch-sage-600 hover:bg-sketch-sage-700 font-cabin disabled:opacity-50 disabled:cursor-not-allowed"
+                  whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                  whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                 >
-                  <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600"></span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  <span className="relative">Send Message</span>
+                  <span className="relative z-10">
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </span>
+                  {!isSubmitting && (
+                    <motion.div
+                      className="absolute inset-0 bg-sketch-moss-700"
+                      initial={{ x: '-100%' }}
+                      whileHover={{ x: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{ zIndex: 0 }}
+                    />
+                  )}
                 </motion.button>
               </form>
             </div>

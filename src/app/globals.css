@@ -1,37 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=PT+Sans:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --foreground-rgb: 28, 25, 23;
+  --background-start-rgb: 245, 245, 244;
   --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: 245, 245, 244;
+    --background-start-rgb: 28, 25, 23;
+    --background-end-rgb: 10, 10, 10;
   }
 }
 
-/* Custom scrollbar */
+body {
+  font-family: 'PT Sans', sans-serif;
+  background: linear-gradient(to bottom, 
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cabin', sans-serif;
+}
+
+/* Pencil sketch effect for SVG strokes */
+.sketch-stroke {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#pencil-texture);
+}
+
+/* Custom scrollbar - outdoor theme */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #4A412A;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
+  background: linear-gradient(180deg, #7BA05B, #6C541E);
+  border-radius: 6px;
+  border: 2px solid #4A412A;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: linear-gradient(180deg, #91B075, #9D7B2B);
 }
 
 /* Smooth scroll behavior */
@@ -39,26 +61,44 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom selection color */
+/* Custom selection color - sage green */
 ::selection {
-  background-color: #9333ea;
-  color: white;
+  background-color: #7BA05B;
+  color: #F5F5F4;
 }
 
-/* Animation classes */
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient 15s ease infinite;
+/* Paper texture background */
+.paper-bg {
+  position: relative;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.paper-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(120, 113, 108, 0.03) 2px,
+      rgba(120, 113, 108, 0.03) 4px
+    );
+  pointer-events: none;
+}
+
+/* Hand-drawn border effect */
+.sketch-border {
+  position: relative;
+}
+
+.sketch-border::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px solid currentColor;
+  border-radius: inherit;
+  opacity: 0.3;
+  filter: url(#sketch-filter);
+  pointer-events: none;
 }

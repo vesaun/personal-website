@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { SketchTree, SketchMountainIcon, SketchCompass, SketchCampfire } from './OutdoorDecorations';
+import { Code2, Cpu, Wrench, Mountain } from 'lucide-react';
 
 // const skillsData = [
 //   {
@@ -80,7 +82,7 @@ const SkillCard = ({ skill, index }) => {
   
   return (
     <motion.div 
-      className="bg-gray-800 rounded-lg p-4 shadow-lg border border-gray-700 relative overflow-hidden"
+      className="bg-sketch-ash-100/70 rounded-lg p-4 shadow-lg border-2 border-sketch-olive-300 relative overflow-hidden sketch-border"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -88,44 +90,43 @@ const SkillCard = ({ skill, index }) => {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      {/* Gradient background effect on hover */}
+      {/* Subtle background effect on hover */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10"
+        className="absolute inset-0 bg-sketch-sage-100/30"
         initial={{ opacity: 0 }}
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       />
       
       <div className="flex justify-between items-center mb-2 relative">
-        <h4 className="font-semibold text-gray-200">{skill.name}</h4>
+        <h4 className="font-semibold text-sketch-charcoal-800 font-cabin">{skill.name}</h4>
         <motion.span 
-          className="text-sm font-medium"
+          className="text-sm font-medium text-sketch-olive-600 font-pt-sans"
           animate={{ 
-            color: isHovered ? '#d946ef' : '#a78bfa',
+            color: isHovered ? '#6C541E' : '#9D7B2B',
           }}
           transition={{ duration: 0.3 }}
         >
           {skill.level}%
         </motion.span>
       </div>
-      <div className="w-full bg-gray-700 rounded-full h-2 relative overflow-hidden">
+      <div className="w-full bg-sketch-ash-200/80 rounded-full h-2.5 relative overflow-hidden border-2 border-sketch-sage-300">
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${skill.level}%` }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="h-2 rounded-full relative"
+          className="h-2.5 rounded-full relative"
           style={{
-            background: 'linear-gradient(90deg, #8b5cf6, #d946ef)'
+            background: 'linear-gradient(90deg, #7BA05B, #91B075, #568203)'
           }}
         />
         
-        {/* Animated glow effect */}
+        {/* Sketch-style progress indicator */}
         <motion.div
-          className="absolute top-0 h-full w-5 bg-white blur-sm"
+          className="absolute top-0 h-full w-8 bg-sketch-moss-400/30 blur-sm"
           initial={{ left: '-10%' }}
           animate={{ left: isHovered ? '120%' : '-10%' }}
-          transition={{ duration: isHovered ? 1 : 0, ease: 'easeInOut' }}
-          style={{ opacity: 0.5 }}
+          transition={{ duration: isHovered ? 1.5 : 0, ease: 'easeInOut' }}
         />
       </div>
     </motion.div>
@@ -142,15 +143,15 @@ const Skills = () => {
   useEffect(() => {
     setIsClient(true);
     
-    // Generate floating nodes for background
+    // Generate subtle rocky nodes
     const generatedNodes = Array.from({ length: 20 }, (_, i) => ({
       id: i,
-      size: Math.random() * 4 + 2,
+      size: Math.random() * 5 + 2,
       x: Math.random() * 100,
       y: Math.random() * 100,
       duration: Math.random() * 30 + 20,
       delay: Math.random() * 2,
-      opacity: Math.random() * 0.08 + 0.02,
+      opacity: Math.random() * 0.06 + 0.02,
     }));
     
     setNodes(generatedNodes);
@@ -178,29 +179,64 @@ const Skills = () => {
   }, []);
 
   return (
-    <section id="skills" className="py-20 bg-gray-800 relative overflow-hidden">
-      {/* Animated circuit pattern background */}
+    <section id="skills" className="py-20 bg-gradient-to-b from-sketch-charcoal-50 via-sketch-ash-100 to-sketch-charcoal-100 relative overflow-hidden paper-bg">
+      {/* Decorative sketch elements */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Outdoor decorative elements */}
+        <SketchTree className="absolute top-32 right-16 opacity-20" delay={0} />
+        <SketchTree className="absolute bottom-40 left-12 opacity-15" delay={0.4} />
+        <SketchMountainIcon className="absolute top-20 left-24 opacity-15 hidden lg:block" delay={0.2} />
+        <SketchCompass className="absolute bottom-20 right-20 opacity-20 hidden md:block" size={55} />
+        <SketchCampfire className="absolute top-1/2 right-32 opacity-25 hidden lg:block" animate={true} />
+        
+        {/* Hand-drawn connecting lines between sections */}
+        <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 1200 800">
+          <motion.path
+            d="M100,100 Q300,150 500,100 T900,100"
+            stroke="#B2BEB5"
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray="8,12"
+            className="sketch-stroke"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 3, delay: 1 }}
+          />
+          <motion.path
+            d="M200,700 Q400,650 600,700 T1000,700"
+            stroke="#A7C091"
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray="8,12"
+            className="sketch-stroke"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 3, delay: 1.5 }}
+          />
+        </svg>
+        
         {/* Only render animations on client side to prevent hydration mismatch */}
         {isClient && (
           <>
-            {/* Floating nodes */}
+            {/* Subtle rocky nodes */}
             {nodes.map((node) => (
               <motion.div
                 key={`node-${node.id}`}
-                className="absolute rounded-full bg-purple-500"
+                className="absolute"
                 style={{
                   width: `${node.size}px`,
                   height: `${node.size}px`,
                   left: `${node.x}%`,
                   top: `${node.y}%`,
                   opacity: node.opacity,
+                  borderRadius: `${Math.random() * 40 + 20}%`,
+                  background: `rgba(120, 113, 108, 0.4)`,
                 }}
                 animate={{
                   scale: [1, 1.2, 1],
                   opacity: [node.opacity, node.opacity * 1.5, node.opacity],
-                  x: [0, Math.random() * 50 - 25, 0],
-                  y: [0, Math.random() * 50 - 25, 0],
+                  x: [0, Math.random() * 20 - 10, 0],
+                  y: [0, Math.random() * 20 - 10, 0],
                 }}
                 transition={{
                   duration: node.duration,
@@ -211,7 +247,7 @@ const Skills = () => {
               />
             ))}
 
-            {/* Animated circuit connections */}
+            {/* Subtle connection lines */}
             <svg className="absolute inset-0 w-full h-full">
               {connections.map((connection) => {
                 const fromNode = nodes[connection.from];
@@ -223,18 +259,18 @@ const Skills = () => {
                     y1={`${fromNode.y}%`}
                     x2={`${toNode.x}%`}
                     y2={`${toNode.y}%`}
-                    stroke={`rgba(139, 92, 246, ${connection.opacity})`}
-                    strokeWidth="1"
-                    strokeDasharray="5,5"
+                    stroke={`rgba(120, 113, 108, ${connection.opacity * 0.3})`}
+                    strokeWidth="0.5"
+                    strokeDasharray="3,3"
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ 
                       pathLength: [0, 1, 0], 
-                      opacity: [0, connection.opacity, 0] 
+                      opacity: [0, connection.opacity * 0.4, 0] 
                     }}
                     transition={{
-                      duration: 10 + Math.random() * 10,
+                      duration: 15 + Math.random() * 10,
                       repeat: Infinity,
-                      ease: "linear",
+                      ease: "easeInOut",
                       delay: Math.random() * 5,
                     }}
                   />
@@ -242,9 +278,9 @@ const Skills = () => {
               })}
             </svg>
 
-            {/* Background glow effects */}
+            {/* Subtle background glow */}
             <motion.div
-              className="absolute rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-3xl"
+              className="absolute rounded-full bg-stone-600/5 blur-3xl"
               style={{
                 width: '40vw',
                 height: '40vw',
@@ -253,37 +289,14 @@ const Skills = () => {
               }}
               animate={{
                 scale: [1, 1.2, 1],
-                opacity: [0.2, 0.4, 0.2],
+                opacity: [0.1, 0.15, 0.1],
               }}
               transition={{
-                duration: 20,
+                duration: 25,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
             />
-            
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i + 'line'}
-                className="absolute h-px bg-gradient-to-r from-transparent via-purple-500/10 to-transparent"
-                style={{
-                  width: Math.random() * 50 + 20 + '%',
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 50}%`,
-                  rotate: `${Math.random() * 180}deg`,
-                }}
-                animate={{
-                  opacity: [0.1, 0.3, 0.1],
-                  left: [`${Math.random() * 50}%`, `${Math.random() * 50}%`]
-                }}
-                transition={{
-                  duration: Math.random() * 10 + 20,
-                  repeat: Infinity,
-                  ease: "linear",
-                  repeatType: "mirror"
-                }}
-              />
-            ))}
           </>
         )}
       </div>
@@ -296,8 +309,8 @@ const Skills = () => {
           viewport={{ once: true }}
           className="max-w-6xl mx-auto"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Skills</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-sketch-charcoal-800 font-cabin">
+            Technical <span className="text-sketch-sage-600">Skills</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {skillsData.map((category, index) => (
@@ -309,16 +322,26 @@ const Skills = () => {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <h3 className="text-xl font-semibold text-gray-200 mb-4 relative inline-block">
-                  {category.category}
-                  <motion.div
-                    className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: '100%' }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    viewport={{ once: true }}
-                  />
-                </h3>
+                <div className="flex items-center gap-3 mb-4">
+                  {/* Category-specific outdoor icons */}
+                  <div className="w-8 h-8 flex items-center justify-center opacity-50">
+                    {index === 0 && <Code2 size={24} style={{ color: '#7BA05B' }} />}
+                    {index === 1 && <Cpu size={24} style={{ color: '#6C541E' }} />}
+                    {index === 2 && <Mountain size={24} style={{ color: '#568203' }} />}
+                    {index === 3 && <Wrench size={24} style={{ color: '#9D7B2B' }} />}
+                    {index === 4 && <Mountain size={24} style={{ color: '#7BA05B' }} />}
+                  </div>
+                  <h3 className="text-xl font-semibold text-sketch-olive-700 relative inline-block font-cabin">
+                    {category.category}
+                    <motion.div
+                      className="absolute bottom-0 left-0 h-1 bg-sketch-sage-500"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: '100%' }}
+                      transition={{ duration: 1, delay: 0.5 }}
+                      viewport={{ once: true }}
+                    />
+                  </h3>
+                </div>
                 <div className="space-y-4">
                   {category.skills.map((skill, skillIndex) => (
                     <SkillCard key={skill.name} skill={skill} index={skillIndex} />

@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth dark">
-      <body className={`${inter.className} antialiased bg-gray-900 text-white min-h-screen`}>
+      <body className={`${inter.className} antialiased bg-gradient-to-b from-slate-900 via-mountain-900 to-slate-950 text-stone-200 min-h-screen`}>
         <main className="relative overflow-hidden">
           {children}
         </main>
